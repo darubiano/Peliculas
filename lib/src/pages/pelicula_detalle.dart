@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:peliculas/src/models/actores_moder.dart';
+import 'package:peliculas/src/models/actores_model.dart';
 import 'package:peliculas/src/models/pelicula_model.dart';
 import 'package:peliculas/src/providers/peliculas_provider.dart';
 
@@ -22,7 +22,7 @@ class PeliculaDetalle extends StatelessWidget {
                 SizedBox(height: 10.0,),
                 _posterTitulo(context ,pelicula),
                 _descripcion(pelicula),
-                _crearCasting(pelicula),
+                _crearCasting(context, pelicula),
               ]
             ),
           )
@@ -91,7 +91,7 @@ class PeliculaDetalle extends StatelessWidget {
   }
 
   Widget _descripcion(Pelicula pelicula) {
-    print(pelicula.id);
+    print('ID PELI: ${pelicula.id}');
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
       child: Text(
@@ -102,7 +102,7 @@ class PeliculaDetalle extends StatelessWidget {
     );
   }
 
-  Widget _crearCasting(Pelicula pelicula) {
+  Widget _crearCasting(BuildContext context, Pelicula pelicula) {
 
     final peliProvider = new PeliculasProvider();
 
@@ -110,7 +110,7 @@ class PeliculaDetalle extends StatelessWidget {
         future: peliProvider.getCast(pelicula.id.toString()),
         builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
           if(snapshot.hasData){
-            return _crarActoresPageView(snapshot.data);
+            return _crarActoresPageView(context, snapshot.data);
           }else{
             return Center(child: CircularProgressIndicator(),);
           }
@@ -120,7 +120,7 @@ class PeliculaDetalle extends StatelessWidget {
 
   }
 
-  Widget _crarActoresPageView(List<Actor> actores) {
+  Widget _crarActoresPageView(BuildContext context, List<Actor> actores) {
 
     return SizedBox(
       height: 200.0,
@@ -131,33 +131,42 @@ class PeliculaDetalle extends StatelessWidget {
           initialPage: 1
         ),
         itemCount: actores.length,
-        itemBuilder: (context, i)=>_actorTarjeta(actores[i]),
+        itemBuilder: (context, i)=>_actorTarjeta(context, actores[i]),
       ),
     );
 
   }
 
-  Widget _actorTarjeta(Actor actor){
+  Widget _actorTarjeta(BuildContext context, Actor actor){
+
     return Container(
       child: Column(
         children: <Widget>[
-          ClipRRect(
-              borderRadius: BorderRadius.circular(20.0),
-              child: FadeInImage(
-              image: NetworkImage(actor.getFoto()),
-              placeholder: AssetImage('assets/img/no-image.jpg'),
-              height: 150.0,
-              fit: BoxFit.cover,
+          GestureDetector(
+                child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: FadeInImage(
+                image: NetworkImage(actor.getFoto()),
+                placeholder: AssetImage('assets/img/no-image.jpg'),
+                height: 150.0,
+                fit: BoxFit.cover,
+              ),
             ),
+            onTap: (){
+              print('ID del actor ${actor.id}');
+              //_actorSeleccionado(actor.id.toString());
+              Navigator.pushNamed(context, 'detalleActor',
+              arguments: actor.id
+              );
+            },
           ),
           Text(
             actor.name,
             overflow: TextOverflow.ellipsis,
-          
-          )
+          ),
         ],
       ),
     );
-  }
 
+  }
 }
