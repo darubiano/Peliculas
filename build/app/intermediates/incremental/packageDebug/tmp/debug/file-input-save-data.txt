@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Tue Jun 11 17:26:33 COT 2019
+#Tue Jun 11 17:42:55 COT 2019
 4.path=flutter_assets/assets/img/loading.gif
 13.baseType=DIRECTORY
 8.set=ASSET
