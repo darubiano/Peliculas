@@ -67,6 +67,10 @@ class ActorDetalle extends StatelessWidget {
   }
 
   Widget _fotoActor(BuildContext context, InfoActores actor){
+    String placeOfBirth ='';
+    if(actor.placeOfBirth!=null){
+     placeOfBirth=actor.placeOfBirth;
+    }
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
       child: 
@@ -87,7 +91,7 @@ class ActorDetalle extends StatelessWidget {
                   Text(actor.birthday, style: Theme.of(context).textTheme.title),              
                 ],  
               ),
-              Text(actor.placeOfBirth,)
+              Text(placeOfBirth,)
             ],
           ),
       );
