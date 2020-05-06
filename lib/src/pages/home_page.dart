@@ -16,8 +16,7 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        centerTitle: false,
-        title: Text('\u{1F3A5} Peliculas en cines '),
+        title: Center(child: Text('\u{1F3A5} Peliculas en cines ')),
         backgroundColor: Colors.indigoAccent,
         actions: <Widget>[
           IconButton(
@@ -49,7 +48,6 @@ class HomePage extends StatelessWidget {
     return FutureBuilder(
       future: peliculasProvider.getEnCines(),
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
-
         if(snapshot.hasData){
           return CardSwiper( peliculas: snapshot.data,);
         }else{

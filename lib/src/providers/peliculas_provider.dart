@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import 'package:peliculas/src/models/actores_model.dart';
 import 'package:peliculas/src/models/info_actores_model.dart';
 import 'package:peliculas/src/models/pelicula_model.dart';
-import 'package:peliculas/src/pages/actor_detalle.dart';
 
 class PeliculasProvider {
   String _apikey = '1be559acde8c84453e9230d3127c59d2';
@@ -110,7 +109,7 @@ class PeliculasProvider {
     final resp = await http.get(url);
     final decodedData = InfoActores.fromJson(json.decode(resp.body));
 
-    print('DAtos actor ${decodedData}');
+    print('DAtos actor $decodedData');
 
     return decodedData;
 

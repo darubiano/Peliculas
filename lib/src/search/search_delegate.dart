@@ -56,7 +56,7 @@ class DataSearch extends SearchDelegate{
 
   @override
   Widget buildResults(BuildContext context) {
-    // Crea los resultados que bamos a mostrar.
+    // Crea los resultados que vamos a mostrar.
     return Center(
       /*
       child: Container(

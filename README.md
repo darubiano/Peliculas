@@ -1,6 +1,6 @@
-# peliculas
+# Peliculas
 
-A new Flutter project.
+This is a project developed in flutter.
 
 ## Getting Started
 

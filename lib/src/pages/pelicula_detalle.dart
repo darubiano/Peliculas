@@ -13,20 +13,22 @@ class PeliculaDetalle extends StatelessWidget {
     final Pelicula pelicula = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[
-          _crerAppbar(pelicula),
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                SizedBox(height: 10.0,),
-                _posterTitulo(context ,pelicula),
-                _descripcion(pelicula),
-                _crearCasting(context, pelicula),
-              ]
-            ),
-          )
-        ],
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: <Widget>[
+            _crerAppbar(pelicula),
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  SizedBox(height: 10.0,),
+                  _posterTitulo(context ,pelicula),
+                  _descripcion(pelicula),
+                  _crearCasting(context, pelicula),
+                ]
+              ),
+            )
+          ],
+        ),
       ), 
     );
   }
@@ -47,7 +49,7 @@ class PeliculaDetalle extends StatelessWidget {
           background: FadeInImage(
             image: NetworkImage(pelicula.getBackgroundImg()),
             placeholder: AssetImage('assets/img/loading.gif'),
-            fadeInDuration: Duration(microseconds: 150),
+            fadeInDuration: Duration(milliseconds: 150),
             fit: BoxFit.cover,
           ),
       ),
@@ -64,7 +66,7 @@ class PeliculaDetalle extends StatelessWidget {
               child: ClipRRect(
               borderRadius: BorderRadius.circular(20.0),
               child: Image(
-                 image: NetworkImage(pelicula.getPosterImg()),
+                image: NetworkImage(pelicula.getPosterImg()),
                 height: 150.0,
               ),
             ),

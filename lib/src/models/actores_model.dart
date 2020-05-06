@@ -18,10 +18,6 @@ class Cast {
 
 }
 
-
-
-
-
 class Actor {
   int castId;
   String character;
