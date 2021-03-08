@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:peliculas/src/models/pelicula_model.dart';
+import 'package:peliculas/src/pages/pelicula_detalle.dart';
 
 class MovieHorizontal extends StatelessWidget {
   
@@ -7,7 +8,7 @@ class MovieHorizontal extends StatelessWidget {
   final Function siguientePagina;
 
 
-  MovieHorizontal({@required this.peliculas, @required this.siguientePagina});
+  MovieHorizontal({ this.peliculas, this.siguientePagina});
 
   final _pageController = new PageController(
     initialPage: 1,
@@ -65,7 +66,7 @@ class MovieHorizontal extends StatelessWidget {
             Text(
               pelicula.title,
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.caption,
+              style: TextStyle(fontSize:12),
             )
           ],
         ),
@@ -75,7 +76,7 @@ class MovieHorizontal extends StatelessWidget {
       child: tarjeta,
       onTap: (){
         print('ID de la pelicula ${pelicula.id}');
-        Navigator.pushNamed(context, 'detalle',
+        Navigator.pushNamed(context, PeliculaDetalle.id,
          arguments: pelicula
         );
       },

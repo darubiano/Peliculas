@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\darub\\Desktop\\FlutterProjects\\peliculas\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-zh-rHK\\values-zh-rHK.xml",
+            "outputFile": "C:\\Users\\darub\\Desktop\\Flutter\\peliculas\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-zh-rHK\\values-zh-rHK.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\darub\\.gradle\\caches\\transforms-1\\files-1.1\\core-1.0.0-rc01.aar\\9267be9df56817b13d7339a13b11bf8f\\res\\values-zh-rHK\\values-zh-rHK.xml",
+                    "source": "C:\\Users\\darub\\.gradle\\caches\\transforms-1\\files-1.1\\core-1.1.0.aar\\1e231ed4052dd3b980d64f569446d920\\res\\values-zh-rHK\\values-zh-rHK.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

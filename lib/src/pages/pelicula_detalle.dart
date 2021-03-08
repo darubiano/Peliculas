@@ -1,35 +1,36 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:peliculas/src/models/actores_model.dart';
 import 'package:peliculas/src/models/pelicula_model.dart';
+import 'package:peliculas/src/pages/actor_detalle.dart';
 import 'package:peliculas/src/providers/peliculas_provider.dart';
 
 class PeliculaDetalle extends StatelessWidget {
-
+  static const String id = 'Pelicula';
   @override
   Widget build(BuildContext context) {
-
     final Pelicula pelicula = ModalRoute.of(context).settings.arguments;
 
-    return Scaffold(
-      body: SafeArea(
-        child: CustomScrollView(
+    return SafeArea(
+      child: Scaffold(
+        body: CustomScrollView(
           slivers: <Widget>[
             _crerAppbar(pelicula),
             SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  SizedBox(height: 10.0,),
-                  _posterTitulo(context ,pelicula),
-                  _descripcion(pelicula),
-                  _crearCasting(context, pelicula),
-                ]
-              ),
+              delegate: SliverChildListDelegate([
+                SizedBox(
+                  height: 10.0,
+                ),
+                _posterTitulo(context, pelicula),
+                _descripcion(pelicula),
+                ElasticInRight(child: _crearCasting(context, pelicula)),
+              ]),
             )
           ],
         ),
-      ), 
+      ),
     );
   }
 
@@ -44,14 +45,17 @@ class PeliculaDetalle extends StatelessWidget {
         centerTitle: true,
         title: Text(
           pelicula.title,
-          style: TextStyle(color: Colors.white, fontSize: 16.0, ),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 16.0,
           ),
-          background: FadeInImage(
-            image: NetworkImage(pelicula.getBackgroundImg()),
-            placeholder: AssetImage('assets/img/loading.gif'),
-            fadeInDuration: Duration(milliseconds: 150),
-            fit: BoxFit.cover,
-          ),
+        ),
+        background: FadeInImage(
+          image: NetworkImage(pelicula.getBackgroundImg()),
+          placeholder: AssetImage('assets/img/loading.gif'),
+          fadeInDuration: Duration(milliseconds: 150),
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
@@ -62,8 +66,8 @@ class PeliculaDetalle extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Hero(
-              tag: pelicula.uniqueId,
-              child: ClipRRect(
+            tag: pelicula.uniqueId,
+            child: ClipRRect(
               borderRadius: BorderRadius.circular(20.0),
               child: Image(
                 image: NetworkImage(pelicula.getPosterImg()),
@@ -71,20 +75,39 @@ class PeliculaDetalle extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(width: 20.0,),
+          SizedBox(
+            width: 20.0,
+          ),
           Flexible(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(pelicula.title, style: Theme.of(context).textTheme.title, overflow: TextOverflow.ellipsis,),
-                Text(pelicula.originalTitle , style: Theme.of(context).textTheme.subhead,overflow: TextOverflow.ellipsis,),
-                Row(
-                  children: <Widget>[
-                    Icon(Icons.star_border),
-                    Text(pelicula.voteAverage.toString(), style: Theme.of(context).textTheme.subhead,overflow: TextOverflow.ellipsis,)
-                  ],
-                )
-              ],
+            child: BounceInDown(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    pelicula.title,
+                    style: Theme.of(context).textTheme.headline5,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    pelicula.originalTitle,
+                    style: Theme.of(context).textTheme.headline6,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  BounceInLeft(
+                    delay: Duration(seconds: 1),
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.star_border),
+                        Text(
+                          pelicula.voteAverage.toString(),
+                          style: Theme.of(context).textTheme.headline6,
+                          overflow: TextOverflow.ellipsis,
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           )
         ],
@@ -99,67 +122,61 @@ class PeliculaDetalle extends StatelessWidget {
       child: Text(
         pelicula.overview,
         textAlign: TextAlign.justify,
-        style: TextStyle(fontSize: 20.0, ),
+        style: TextStyle(
+          fontSize: 20.0,
+        ),
       ),
     );
   }
 
   Widget _crearCasting(BuildContext context, Pelicula pelicula) {
-
     final peliProvider = new PeliculasProvider();
 
     return FutureBuilder(
-        future: peliProvider.getCast(pelicula.id.toString()),
-        builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
-          if(snapshot.hasData){
-            return _crarActoresPageView(context, snapshot.data);
-          }else{
-            return Center(child: CircularProgressIndicator(),);
-          }
-        },
-      );
-
-
+      future: peliProvider.getCast(pelicula.id.toString()),
+      builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
+        if (snapshot.hasData) {
+          return _crarActoresPageView(context, snapshot.data);
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
   }
 
   Widget _crarActoresPageView(BuildContext context, List<Actor> actores) {
-
     return SizedBox(
       height: 200.0,
       child: PageView.builder(
         pageSnapping: false,
-        controller: PageController(
-          viewportFraction: 0.3,
-          initialPage: 1
-        ),
+        controller: PageController(viewportFraction: 0.3, initialPage: 1),
         itemCount: actores.length,
-        itemBuilder: (context, i)=>_actorTarjeta(context, actores[i]),
+        itemBuilder: (context, i) => _actorTarjeta(context, actores[i]),
       ),
     );
-
   }
 
-  Widget _actorTarjeta(BuildContext context, Actor actor){
-
+  Widget _actorTarjeta(BuildContext context, Actor actor) {
     return Container(
       child: Column(
         children: <Widget>[
           GestureDetector(
-                child: ClipRRect(
-                borderRadius: BorderRadius.circular(20.0),
-                child: FadeInImage(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: FadeInImage(
                 image: NetworkImage(actor.getFoto()),
                 placeholder: AssetImage('assets/img/no-image.jpg'),
                 height: 150.0,
                 fit: BoxFit.cover,
               ),
             ),
-            onTap: (){
+            onTap: () {
               print('ID del actor ${actor.id}');
               //_actorSeleccionado(actor.id.toString());
-              Navigator.pushNamed(context, 'detalleActor',
-              arguments: actor.id
-              );
+              Navigator.pushNamed(context, ActorDetalle.id,
+                  arguments: actor.id);
             },
           ),
           Text(
@@ -169,6 +186,5 @@ class PeliculaDetalle extends StatelessWidget {
         ],
       ),
     );
-
   }
 }

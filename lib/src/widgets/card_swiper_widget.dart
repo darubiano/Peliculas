@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:peliculas/src/models/pelicula_model.dart';
+import 'package:peliculas/src/pages/pelicula_detalle.dart';
 
 class CardSwiper extends StatelessWidget {
 
   final List<Pelicula> peliculas;
 
-  CardSwiper({ @required this.peliculas});
+  CardSwiper({ this.peliculas});
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +18,8 @@ class CardSwiper extends StatelessWidget {
     return Container(
       //padding: EdgeInsets.only(top: 10.0),
       child: Swiper(
-        itemWidth: _screnSize.width*0.6,
-        itemHeight: _screnSize.height*0.5,
+        itemWidth: _screnSize.width*0.3,
+        itemHeight: _screnSize.height*0.6,
         layout: SwiperLayout.STACK,
         itemBuilder: (BuildContext context,int index){
           //print(peliculas.length);
@@ -30,7 +31,7 @@ class CardSwiper extends StatelessWidget {
                   child: GestureDetector(
                           onTap: (){
                             print('ID de la pelicula ${peliculas[index].id}');
-                            Navigator.pushNamed(context, 'detalle',
+                            Navigator.pushNamed(context, PeliculaDetalle.id,
                             arguments: peliculas[index]
                             );
                           },

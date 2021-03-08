@@ -4,33 +4,34 @@ import 'package:peliculas/src/models/info_actores_model.dart';
 import 'package:peliculas/src/providers/peliculas_provider.dart';
 
 class ActorDetalle extends StatelessWidget {
-
-
+  static const String id = 'Actor';
   @override
   Widget build(BuildContext context) {
 
     final int actorId = ModalRoute.of(context).settings.arguments;
     final peliProvider = new PeliculasProvider();
 
-    return Scaffold(
-      body: FutureBuilder<InfoActores>(
-        future: peliProvider.getActor(actorId.toString()),
-        builder: (context, AsyncSnapshot snapshot) {
-          if(snapshot.hasData){
-            if(snapshot.data.birthday!=null){
-              return _actor(context, snapshot.data);
+    return SafeArea(
+      child: Scaffold(
+        body: FutureBuilder<InfoActores>(
+          future: peliProvider.getActor(actorId.toString()),
+          builder: (context, AsyncSnapshot snapshot) {
+            if(snapshot.hasData){
+              if(snapshot.data.birthday!=null){
+                return _actor(context, snapshot.data);
+              }else{
+                return _mostrarAlert(context, snapshot.data);
+              }
             }else{
-              return _mostrarAlert(context, snapshot.data);
-            }
-          }else{
-            return Container(
-              height: 400.0,
-              child: Center(
-                child: CircularProgressIndicator()
-                )
-              );
-          }        
-        },
+              return Container(
+                height: 400.0,
+                child: Center(
+                  child: CircularProgressIndicator()
+                  )
+                );
+            }        
+          },
+        ),
       ),
     );
   }
@@ -88,7 +89,7 @@ class ActorDetalle extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(actor.birthday, style: Theme.of(context).textTheme.title),              
+                  Text(actor.birthday, style: Theme.of(context).textTheme.headline4),              
                 ],  
               ),
               Text(placeOfBirth,)
@@ -141,7 +142,7 @@ class ActorDetalle extends StatelessWidget {
               child: Text('Cancelar'),
               onPressed: ()=> Navigator.of(context).pop(),
             ),*/
-            FlatButton(
+            TextButton(
               child: Text('OK'),
               onPressed: ()=> Navigator.of(context).pop(),
             )

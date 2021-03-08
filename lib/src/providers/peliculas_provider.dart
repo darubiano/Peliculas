@@ -14,7 +14,7 @@ class PeliculasProvider {
 
   int _popularesPage = 0;
   bool _cargando = false;
-  List<Pelicula> _populares = new List();
+  List<Pelicula> _populares = [];
   // broadcast permite que se pueda escuchar desde varios widgets
   final _popularesStreamControler = StreamController<List<Pelicula>>.broadcast();
 
@@ -109,7 +109,7 @@ class PeliculasProvider {
     final resp = await http.get(url);
     final decodedData = InfoActores.fromJson(json.decode(resp.body));
 
-    print('DAtos actor $decodedData');
+    print('Datos actor $decodedData');
 
     return decodedData;
 
